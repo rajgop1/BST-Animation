@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hil</title>
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .footer{
+            
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            background-color: rgb(90, 157, 216);
+            color:wheat
+        }
+        .add{
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            gap:5px;
+            background-color: rgb(120, 120, 238);
+        }
+        .container{
+            background-color: tomato;
+            width: fit-content;
+            padding: 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.5s;
+        }
+        .container input{
+            font-size: 1.1rem;
+            padding: 3px;
+            padding-left: 10px;
+            border-radius: 10px;
+            border: none;
+        }
+        .icons{
+            font-size: 1.3rem;
+            font-weight: bolder;
+            background-color: rgba(0, 0, 0, 0.698);
+            width: fit-content;
+            padding: 4px 6px;
+            position: absolute;
+            right: 0;
+            top:50%;
+            transform: translateX(100%) translateY(-50%);
+            cursor: pointer;
+            
+        }
+        .icons:hover{
+            background-color: black;
+
+        }
+        .hide{
+            transform: translateX(-100%);
+        }
+        body{
+            transition: background-color 1s;
+        }
+        .header{
+            height: 50px;
+            background-color: rgb(86, 86, 235);
+        }
+        .navbar{
+            display: flex;
+            justify-content: center;
+            height: 100%;
+            color:white;
+            font-family: 'Courier New', Courier, monospace;
+            align-items: center;
+        }
+        .footerheading{
+            position: absolute;
+            
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.74);
+            top:0;
+            transform: translateY(-100%);
+            color: blanchedalmond;
+        }
+        .main{
+            background-color: rgb(253, 229, 198);
+            height: 400px;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .bst{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.623);
+            color:white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s;
+            visibility:hidden;
+        }
+        .rootheading,.secondlevel,.thirdlevel,.fourthlevel{
+            width: 100%;
+            display: flex;
+            justify-content:space-evenly;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 5px;
+        }
+      
+        #root{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .buttons{
+            cursor: pointer;
+            background-color: rgb(38, 226, 38);
+            color:white;
+
+        }
+        .buttons:hover{
+            background-color: rgb(0, 0, 0);
+        }
+        .bstshow{
+            visibility: visible;
+            background-color: rgba(135, 211, 60, 0.849);
+        }
+        .bstcolor{
+            background-color: rgb(63, 95, 63);
+        }
+        .error{
+            background-color: rgb(0, 0, 0);
+            height: 30px;
+            right:0;  
+            top:50%;     
+            width:200px; 
+            color:red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+        .disp{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <nav class="navbar">
+            <div class="center">Viusalize</div>
+        </nav>
+    </header>
+    <div class="main">
+        <div class="rootheading firstlevel">
+            <div class="bst" id="root"></div>
+        </div>
+        <div class="secondlevel">
+            <div class="bst"></div>
+            <div class="bst"></div>
+        </div>
+        <div class="thirdlevel">
+            <div class="bst"></div>
+            <div class="bst"></div>
+            <div class="bst"></div>
+            <div class="bst"></div>
+        </div>
+        <div class="fourthlevel">
+            <div class="bst"></div>
+            <div class="bst"></div>
+            <div class="bst"></div>
+            <div class="bst"></div>
+            <div class="bst"></div>
+            <div class="bst"></div>
+            <div class="bst"></div>
+            <div class="bst"></div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footerheading">
+            Perform
+        </div>
+        <div id="container" class="container">
+            <div class="add">
+                <input required  class="" placeholder="add" type="text" name="" id="addele">            
+                
+                <input  class="buttons" value="Add" type="button" name="" id="addelebut">            
+            </div>
+            <div id="arrow" class="arrow icons">&#8592;</div>
+            <div id="error" class="error"></div>
+        </div>
+    </footer>
+    <script>
+        let arrow = document.getElementById("arrow") 
+        let inputadd = document.getElementById("addele") 
+        let inputaddbutton = document.getElementById("addelebut") 
+        let root = document.getElementById("root") 
+        let bstele = document.getElementsByClassName("bst")
+        let errrr = document.getElementById("error")
+        let container = document.getElementById("container")
+        class node{
+            constructor(data,left=null,right=null)
+            {
+                this.data=data
+                this.left=left
+                this.right=right
+            }
+        }
+        
+        class bst
+        {
+            constructor()
+            {
+                this.root=null
+                this.arr=[]
+            }
+            find(data)
+            {
+                let cur = this.root
+
+                    findRecursive(cur)
+                    {
+                        if(cur.data==null){
+                            console.log("false")
+                            return false
+                        }
+                        else if(cur.data==data)
+                        {
+                            console.log("true")
+                            return true
+                        }
+                        else if(data<cur.data)
+                        {
+                            findRecursive(cur.left)
+                        }
+                        else if(data>cur.data)
+                        {
+                            findRecursive(cur.right)
+                        }
+                    }
+                    
+            }
+            add(data)
+            {
+                if(this.root==null)
+                {
+                    this.root=new node(data)
+                    root.textContent=this.root.data
+                    root.classList.add("bstshow")
+                    this.arr.push(this.root.data)
+                    
+                }
+                else{
+                    let cur=this.root
+                    let curarr = this.arr
+                    let tracker=1
+                    function addData(cur)
+                    {
+                        errrr.classList.remove("disp")
+                      if(data==cur.data)
+                        {
+                            errrr.classList.add("disp")
+                            errrr.textContent="Can not have duplicate"
+                        }
+                        else if(data<cur.data)
+                        {
+                            tracker=tracker*2
+                            if(cur.left==null)
+                            {
+                                cur.left=new node(data)
+                                curarr.push(cur.left.data)
+                                bstele[tracker-1].textContent=cur.left.data
+                                bstele[tracker-1].classList.add("bstshow")
+                            }
+                            else{
+                                addData(cur.left)
+                            }
+                        }
+                        else if(data>cur.data)
+                        {
+                            tracker=tracker*2+1
+                            tracker-1
+                            if(cur.right==null)
+                            {
+                                cur.right=new node(data)
+                                curarr.push(cur.right.data)
+                                bstele[tracker-1].textContent=cur.right.data
+                                bstele[tracker-1].classList.add("bstshow")
+                            }
+                            else{
+                                addData(cur.right)
+                            }
+                        }
+                    }
+                    addData(cur)
+                }
+            }
+        }
+        
+        let bst1 = new bst()
+
+        arrow.addEventListener("click",()=>{
+            
+            container.classList.toggle("hide")
+            let classcontains=container.classList.contains("hide")
+            
+            arrow.innerHTML=classcontains?`&#8594;`:`&#8592;`
+             
+        })
+        inputaddbutton.addEventListener("click",()=>{
+            let data = parseInt(inputadd.value)
+            bst1.add(data)
+            console.log(bst1)
+        })
+        
+
+    </script>
+</body>
+</html>
